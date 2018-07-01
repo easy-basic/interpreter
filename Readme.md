@@ -17,6 +17,15 @@ npm Install
 npm run watch
 ```
 
+## Progress
+
+* [x] Stream Scanning
+* [x] Expression Parsing
+* [x] Top level program parsing
+* [ ] Statements Parsing
+* [ ] Plugable functions support in expression parsing
+* [ ] Complete Runtime
+
 ## Related Projects
 
 * PcBASIC https://github.com/robhagemans/pcbasic
