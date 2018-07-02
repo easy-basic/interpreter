@@ -27,7 +27,8 @@ export default class ExpressionParser {
                 throw `Expected ${until}`
             }
 
-            else if (this.token.text == until) {
+            else if (!this.token.text || this.token.text == until) {
+                this.token = this.scanner.scan();
                 break;
             }
 
@@ -45,6 +46,7 @@ export default class ExpressionParser {
     }
 
     _readToken() {
+        this.scanner.peekState();
         this.token = this.scanner.scan();
 
         // Decimal Number
@@ -118,6 +120,7 @@ export default class ExpressionParser {
             }
         }
 
+        this.scanner.seekState();
         return false;
     }
 
@@ -126,6 +129,7 @@ export default class ExpressionParser {
     }
 
     _readBinaryToken() {
+        this.scanner.peekState();
         this.token = this.scanner.scan();
 
         if (this.token.type == token_types.Operator) {
@@ -134,6 +138,7 @@ export default class ExpressionParser {
             })
         }
 
+        this.scanner.seekState();
         return false;
     }
 

@@ -152,7 +152,7 @@ function StringScanner(text, last_token) {
 }
 
 function IdentifierScanner(text, last_token){
-    var m = text.match(/^([a-z][a-z0-9.]+)(!|#|\$)?/i)
+    var m = text.match(/^([a-z]([a-z0-9.]+)?)(!|#|\$)?/i)
     if (m){
         return {
             length: m[0].length,

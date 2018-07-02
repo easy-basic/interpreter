@@ -1,6 +1,7 @@
 import scanner from '../scanners/basic_scanner.js';
 import { token_types } from '../token.js';
 import ExpressionParser from './expression';
+import { build_satements } from './statements';
 
 
 export default class BasicParser {
@@ -8,6 +9,7 @@ export default class BasicParser {
     constructor() {
         this.scanner = new scanner();
         this.expr_parser = new ExpressionParser();
+        this.statement_parser = build_satements();
     }
 
     /** Return a fully parsed tree of given code */
@@ -57,12 +59,16 @@ export default class BasicParser {
 
     /** Parse a single statment */
     _parseStatement() {
-        var params = [], statement;
+        var params = [], statement, parser;
 
-        // if 1st token is keyword add it to statement text 
+        // if 1st token is keyword add it to statement text
         if (this.token.type == token_types.Keyword) {
             statement = this.token.text;
-            params = this._getStatementPrams();
+            parser = this.statement_parser[statement];
+            if(parser){
+              var params = parser(this.scanner, this.expr_parser);
+              this.token = this.scanner.token;
+            }
         }
 
         // Check if its direct assignment
@@ -70,14 +76,17 @@ export default class BasicParser {
             var identifier = this.token;
             this._nextToken();
 
-            // If identifier followed by an = its direct assignemnt 
+            // If identifier followed by an = its direct assignemnt
             if (this.token.text == '=') {
                 statement = 'LET';
-                params.concat([identifier, this.token]);
-                params.concat(this._getStatementPrams());
+                parser = this.statement_parser['LET'];
+                if(parser){
+                  var params = parser(this.scanner, this.expr_parser, identifier.text);
+                  this.token = this.scanner.token;
+                }
             }
 
-            // Else its unknown throw error 
+            // Else its unknown throw error
             else {
                 this._throwError(`Invalid token ${this.token.text}`);
             }
@@ -92,19 +101,6 @@ export default class BasicParser {
             statement: statement,
             params: params
         }
-    }
-
-    /** return statement param tokens as tokens array */
-    _getStatementPrams() {
-        var params = [];
-        this._nextToken();
-
-        while (!this._isStatementTerminator()) {
-            params.push(this.token);
-            this._nextToken();
-        }
-
-        return params;
     }
 
     /** Return if current token is StatementTerminator */
