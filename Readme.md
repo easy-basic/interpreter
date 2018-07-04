@@ -23,6 +23,8 @@ npm run watch
 * [x] Expression Parsing
 * [x] Top level program parsing
 * [x] Statements Parsing
+* [x] Plugable operators support
+* [x] Expression evaluator
 * [ ] Plugable functions support in expression parsing
 * [ ] Complete Runtime
 
