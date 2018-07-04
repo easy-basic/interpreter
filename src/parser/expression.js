@@ -22,38 +22,40 @@ export default class ExpressionParser {
             this.token = this.scanner.scan();
             this.scanner.seekState();
 
-            // break if until reaches
-            if (!this.token || this.token.type == token_types.EOL) {
-                throw `Expected ${until}`
-            }
-
-            else if (!this.token.text || this.token.text == until) {
+            if (!this.token.text ||
+                this.token.text == until ||
+                this.token.type == token_types.EOL ||
+                this.token.text == ':'
+            ) {
                 this.token = this.scanner.scan();
                 break;
             }
 
-            // Ignore ','
-            else if (this.token.text == ',') {
-                continue;
-            }
-
             else {
+                if (nodes.length > 0 && this.token.text != ',') {
+                    throw `Unexpected token ${this.token.text}`;
+                }
+                else if (this.token.text == ',') {
+                    this.token = this.scanner.scan();
+                }
+
                 var node = this._binaryParser();
                 nodes.push(node);
             }
         }
+        if(nodes.length == 1)
+            return nodes[0]
         return nodes;
     }
 
     _readToken() {
-        this.scanner.peekState();
         this.token = this.scanner.scan();
 
         // Decimal Number
         if (this.token.type == token_types.DeciamlNum) {
             var value = this.token.text.replace(/(!|%|#|)$/, '') || 0
             return Object.assign(this.token, {
-                value: value
+                value: parseFloat(value)
             })
         }
 
@@ -61,7 +63,7 @@ export default class ExpressionParser {
         else if (this.token.type == token_types.OcatalNum) {
             var value = this.token.text.replace(/^&o?/i, '') || '0';
             return Object.assign(this.token, {
-                value: parseFloat(value, 8)
+                value: this._convertFromBaseToBase(value, 8, 10),
             })
         }
 
@@ -69,18 +71,23 @@ export default class ExpressionParser {
         else if (this.token.type == token_types.HexaNum) {
             var value = this.token.text.replace(/^&h/i, '') || '0';
             return Object.assign(this.token, {
-                value: parseFloat(value, 16)
+                value: this._convertFromBaseToBase(value, 16, 10),
             })
         }
 
         // String
         else if (this.token.type == token_types.String) {
-            return this.token;
+            return Object.assign(this.token, {
+                value: this.token.text.substr(1).slice(0, -1)
+            })
         }
 
         // Array
         else if (this.token.text == '[') {
-            return _parseUntil(']');
+            return {
+                object: this._parseUntil(']'),
+                is_array: true
+            }
         }
 
         // Uniary Operators
@@ -100,6 +107,7 @@ export default class ExpressionParser {
 
         // Variables and Function Calls
         else if (this.token.type == token_types.Identifier) {
+            this.scanner.peekState();
             var node = this.token;
             this.token = this.scanner.scan();
 
@@ -118,10 +126,12 @@ export default class ExpressionParser {
                     property: this._parseUntil(')')
                 }
             }
+            this.scanner.seekState();
+            this.token = this.scanner.token;
         }
 
-        this.scanner.seekState();
-        return false;
+        // Identifier
+        return this.token;
     }
 
     _binaryPrecedence(op) {
@@ -162,7 +172,6 @@ export default class ExpressionParser {
         while (operator = this._readBinaryToken()) {
             if (operator.prec == 0) break;
 
-            console.log(stack);
             while (stack.length > 2 && operator.prec <= stack[stack.length - 2].prec) {
                 right = stack.pop();
                 operator = stack.pop();
@@ -189,10 +198,15 @@ export default class ExpressionParser {
 
     _createBinaryExpression(op, left, right) {
         return {
-            type: expr_types.BinaryExpr,
             operator: op.text,
             left: left,
-            right: right
+            right: right,
+            is_binary: true
         };
+    }
+
+    _convertFromBaseToBase(str, fromBase, toBase) {
+        var num = parseInt(str, fromBase);
+        return parseInt(num.toString(toBase));
     }
 }

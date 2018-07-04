@@ -12,9 +12,9 @@ export function build_scanners () {
     scanners.append('keyword_scanner', KeywordScanner);
     scanners.append('operator_scanner', OperatorScanner);
     scanners.append('string_scanner', StringScanner);
-    scanners.append('decimal_scanner', DecimalScanner);
     scanners.append('hexa_scanner', HexaScanner);
     scanners.append('octal_scanner', OctalScanner);
+    scanners.append('decimal_scanner', DecimalScanner);
     scanners.append('identifier_scanner', IdentifierScanner);
     scanners.append("unkown_scanner", UnknownScanner)
 
@@ -65,7 +65,7 @@ function LineNumberScanner(text, last_token) {
 
 
 function KeywordScanner(text, last_token) {
-    var word = text.match(/^[a-z$(']+/i);
+    var word = text.match(/^[a-z$('?]+/i);
     if (word && keywords.indexOf(word[0].toUpperCase()) > -1) {
         return {
             length: word[0].length,
@@ -110,7 +110,7 @@ function OctalScanner(text, last_token) {
     if (m) {
         return {
             length: m[0].length,
-            type: token_types.DeciamlNum,
+            type: token_types.OcatalNum,
             text: m[0]
         };
     }
@@ -121,7 +121,7 @@ function HexaScanner(text, last_token) {
     if (m) {
         return {
             length: m[0].length,
-            type: token_types.DeciamlNum,
+            type: token_types.HexaNum,
             text: m[0]
         };
     }
@@ -129,8 +129,8 @@ function HexaScanner(text, last_token) {
 
 function OperatorScanner(text, last_token) {
     var m = text.slice(0, 3).match(/(MOD|AND|OR|XOR|EQV|IMP)/i) ||
-        text.slice(0, 2).match(/(>=|<=|=>|=<|<>|=)/i) ||
-        text.match(/^(\^|\*|\/|\\|\+|-|>|<|\(|\))/i);
+        text.slice(0, 2).match(/(>=|<=|=>|=<|<>|==)/i) ||
+        text.match(/^(\^|\*|\/|\\|\+|-|>|<)/i);
     if (m) {
         return {
             length: m[0].length,
