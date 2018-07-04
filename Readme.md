@@ -22,7 +22,7 @@ npm run watch
 * [x] Stream Scanning
 * [x] Expression Parsing
 * [x] Top level program parsing
-* [ ] Statements Parsing
+* [x] Statements Parsing
 * [ ] Plugable functions support in expression parsing
 * [ ] Complete Runtime
 

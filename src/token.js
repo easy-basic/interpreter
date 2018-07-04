@@ -20,7 +20,7 @@ exports.token_types = Object.freeze({
 
 exports.keywords = [
     'END', 'FOR', 'NEXT', 'DATA', 'INPUT', 'DIM', 'READ', 'LET', 'GOTO', 'RUN', 'IF',
-    'RESTORE', 'GOSUB', 'RETURN', 'STOP', 'PRINT', 'CLEAR', 'LIST', 'NEW', 'ON',
+    'RESTORE', 'GOSUB', 'RETURN', 'STOP', 'PRINT', '?', 'CLEAR', 'LIST', 'NEW', 'ON',
     'WAIT', 'DEF', 'POKE', 'CONT', 'OUT', 'LPRINT', 'LLIST', 'WIDTH', 'ELSE', 'TRON',
     'TROFF', 'SWAP', 'ERASE', 'EDIT', 'ERROR', 'RESUME', 'DELETE', 'AUTO', 'RENUM',
     'DEFSTR', 'DEFINT', 'DEFSNG', 'DEFDBL', 'LINE', 'WHILE', 'WEND', 'CALL', 'WRITE',
@@ -48,7 +48,7 @@ exports.binary_operators = {
     '>': 7, '<': 7,
     '>=': 7, '<=': 7,
     '=>': 7, '=<': 7,
-    '<>': 7, '><': 7, '=': 7,
+    '<>': 7, '><': 7, '==': 7,
     'AND': 5, 'OR': 4,
     'XOR': 3, 'EQV': 2,
     'IMP': 1

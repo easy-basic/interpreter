@@ -1,14 +1,17 @@
 import BasicParser from './parser/basic_parser';
-
+import Runtime from './runtime/main'
 
 class Easybasic{
 
     constructor(){
         this.parser = new BasicParser();
+        this.runtime = new Runtime();
     }
 
-    parse(text){
-        return this.parser.parse(text);
+    execute(code){
+        var parsed = this.parser.parse(code);
+
+        this.runtime.execute(parsed);
     }
 }
 
