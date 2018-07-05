@@ -47,6 +47,43 @@ export default class ExpressionEvaluator {
             }
             return arr;
         }
+
+        // Identifier
+        else if (node.type == 9){
+            var variable= this.runtime.var_manager.get(node.text);
+            if(variable)
+                return variable.val;
+            return undefined;
+        }
+
+        // array index
+        else if (node.type == 15){
+            var variable = this.runtime.var_manager.get(node.object.text);
+            var index = this._evaluateNode(node.property);
+            if(variable){
+                return variable.val[index];
+            }
+            else{
+                throw `Index '${index}' out of range`;
+            }
+        }
+
+        // function calls
+        else if (node.type == 16){
+            var fn = this.runtime.fn_manager.get(node.object.text);
+            var fn_args = Array.isArray(node.property)? node.property: [node.property];
+            var args = [];
+            for(var arg of fn_args){
+                args.push(this._evaluateNode(arg));
+            }
+
+            if(fn){
+                return fn(...args);
+            }
+            else{
+                throw `Function '${node.object.text}' is not defined`;
+            }
+        }
     }
 }
 
