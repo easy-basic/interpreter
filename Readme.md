@@ -28,7 +28,7 @@ npm run watch
 * [x] Plugable functions support in expression parsing
 * [x] Statement Execution
 * [x] Complete Runtime
-* [x] Add GUI
+* [ ] Add GUI
 
 ## Runing
 
