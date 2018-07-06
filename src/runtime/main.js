@@ -1,4 +1,4 @@
-import FunctionManager from './functions';
+import FunctionManager from '../functions/functions';
 import VaribableManager from './variables';
 import StatementManager from '../statements/base'
 import ExpressionEvaluator from './expression_evaluator';

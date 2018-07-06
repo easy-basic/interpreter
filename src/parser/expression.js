@@ -174,9 +174,9 @@ export default class ExpressionParser {
 
             while (stack.length > 2 && operator.prec <= stack[stack.length - 2].prec) {
                 right = stack.pop();
-                operator = stack.pop();
+                var op = stack.pop();
                 left = stack.pop();
-                var node = this._createBinaryExpression(operator, left, right);
+                var node = this._createBinaryExpression(op, left, right);
                 stack.push(node);
             }
 

@@ -25,8 +25,22 @@ npm run watch
 * [x] Statements Parsing
 * [x] Plugable operators support
 * [x] Expression evaluator
-* [ ] Plugable functions support in expression parsing
-* [ ] Complete Runtime
+* [x] Plugable functions support in expression parsing
+* [x] Statement Execution
+* [x] Complete Runtime
+* [x] Add GUI
+
+## Runing
+
+There is no GUI provided yet but project can be test by opening `dist/test.html` in browser and using following commands
+
+```
+var basic = new BASIC();
+basic.execute(`
+10 x = 10+30/5*43-cos(30)
+20 print x
+`)
+```
 
 ## Related Projects
 
