@@ -2,7 +2,6 @@
 
 export default class ExpressionEvaluator {
     evaluate(expr, runtime) {
-        console.log(expr);
         this.runtime = runtime;
         return this._evaluateNode(expr);
     }
