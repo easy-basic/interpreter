@@ -6,7 +6,7 @@ A modern BASIC interpreter that runs right inside our browser.
 
 ```bash
 # Clone this repo
-git clone https://github.com/nmanumr/easybasic-interpreter.git
+git clone https://github.com/easy-basic/interpreter.git
 
 # Install dependencies
 yarn
