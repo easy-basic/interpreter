@@ -3,7 +3,8 @@ const path = require('path');
 module.exports = {
     entry: './src/main.js',
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        // path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, '../easy-basic.github.io/src/src/assets/'),
         filename: 'Easybasic.bundle.js'
     },
     devtool: 'inline-source-map',

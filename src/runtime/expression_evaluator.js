@@ -17,7 +17,7 @@ export default class ExpressionEvaluator {
 
         // Uniary Operators
         else if (node.prefix) {
-            var op_fn = this.runtime.op_manager.get_uniary(node.operator);
+            var op_fn = this.runtime.operators.get_uniary(node.operator);
 
             if (op_fn)
                 return op_fn(this._evaluateNode(node.argument))
@@ -29,7 +29,7 @@ export default class ExpressionEvaluator {
         else if(node.is_binary){
             var left = this._evaluateNode(node.left);
             var right = this._evaluateNode(node.right);
-            var op_fn = this.runtime.op_manager.get_binary(node.operator);
+            var op_fn = this.runtime.operators.get_binary(node.operator);
             
             if (op_fn)
                 return op_fn(left, right)

@@ -2,7 +2,10 @@ import { build_scanners } from './scanners.js';
 
 export default class BasicScanner {
     
-    constructor() {
+    constructor(statements, operators) {
+        this.statements = statements;
+        this.operators = operators;
+
         this.source = '';
         this.pos = 0;
         this.last_token = null;
@@ -44,7 +47,13 @@ export default class BasicScanner {
         this.skipBlank();
         for (var x in this.scanners._dict) {
             var scanner = this.scanners._dict[x].value;
-            this.token = scanner(this.source.slice(this.pos), this.last_token);
+            this.token = scanner(
+                this.source.slice(this.pos),
+                this.last_token,
+                this.statements,
+                this.operators
+            );
+            
             if (this.token) {
                 this.last_token = this.token;
                 this.pos += this.token.length;

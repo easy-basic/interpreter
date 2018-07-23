@@ -17,17 +17,24 @@ export default class ExpressionParser {
 
     _parseUntil(until) {
         var nodes = [];
+        var untilReached = false;
         while (true) {
             this.scanner.peekState();
             this.token = this.scanner.scan();
             this.scanner.seekState();
 
             if (!this.token.text ||
-                this.token.text == until ||
                 this.token.type == token_types.EOL ||
                 this.token.text == ':'
             ) {
                 this.token = this.scanner.scan();
+                untilReached = false;
+                break;
+            }
+
+            else if (this.token.text == until){
+                this.token = this.scanner.scan();
+                untilReached = true
                 break;
             }
 
@@ -44,8 +51,8 @@ export default class ExpressionParser {
             }
         }
         if(nodes.length == 1)
-            return nodes[0]
-        return nodes;
+            return [untilReached, nodes[0]]
+        return [untilReached, nodes];
     }
 
     _readToken() {
@@ -85,7 +92,7 @@ export default class ExpressionParser {
         // Array
         else if (this.token.text == '[') {
             return {
-                object: this._parseUntil(']'),
+                object: this._parseUntil(']')[1],
                 is_array: true
             }
         }
@@ -102,7 +109,7 @@ export default class ExpressionParser {
 
         // Parentheses
         else if (this.token.text == '(') {
-            return this._parseUntil(')');
+            return this._parseUntil(')')[1];
         }
 
         // Variables and Function Calls
@@ -115,7 +122,7 @@ export default class ExpressionParser {
                 return {
                     type: token_types.Array,
                     object: node,
-                    property: this._parseUntil(']')
+                    property: this._parseUntil(']')[1]
                 }
             }
 
@@ -123,7 +130,7 @@ export default class ExpressionParser {
                 return {
                     type: token_types.Function,
                     object: node,
-                    property: this._parseUntil(')')
+                    property: this._parseUntil(')')[1]
                 }
             }
             this.scanner.seekState();

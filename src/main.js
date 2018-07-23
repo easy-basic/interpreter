@@ -1,17 +1,24 @@
-import BasicParser from './parser/basic_parser';
-import Runtime from './runtime/main'
+import Runtime from './runtime/main';
+import StatementManager from './statements/base'
+import OperatorManager from './operators/operators';
 
 class Easybasic{
 
-    constructor(){
-        this.parser = new BasicParser();
-        this.runtime = new Runtime();
+    constructor(terminal){
+        this.terminal = terminal;
+        this.statements = new StatementManager(this.terminal);
+        this.operators = new OperatorManager();
+
+        this.runtime = new Runtime(this.statements, this.operators);
     }
 
     execute(code){
-        var parsed = this.parser.parse(code);
+        this.terminal.clear();
+        this.runtime.execute(code);
+    }
 
-        this.runtime.execute(parsed);
+    version(){
+        return '0.1';
     }
 }
 

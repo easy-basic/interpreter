@@ -1,5 +1,9 @@
 export default class PrintStatement {
 
+    constructor(terminal){
+        this.terminal = terminal;
+    }
+
     execute(statement, runtime) {
         this.runtime = runtime;
         var format = statement.format && statement.format.length && statement.format[0] || '';
@@ -9,7 +13,7 @@ export default class PrintStatement {
 
         for (var expr of exprs) {
             var out = this.formateExpr(format, expr, runtime);
-            console.log(out);
+            this.terminal.write(`${out}\n`);
         }
     }
 
@@ -17,3 +21,4 @@ export default class PrintStatement {
         return runtime.expr_evaluator.evaluate(expr, runtime);
     }
 }
+

@@ -81,7 +81,7 @@ function LetParser(scnr, expr_parser, ident){
     }
     return {
         ident: ident,
-        val: expr_parser.parse(scnr),
+        val: expr_parser.parse(scnr)[1],
     }
 }
 
@@ -94,7 +94,7 @@ function for_parser(scnr, expr_parser){
         throw `Invalid token ${token.text}`;
 
 
-        var start = expr_parser.parse(scnr, 'TO');
+    var start = expr_parser.parse(scnr, 'TO');
     var token = scnr.scan();
     if (token.text != 'TO')
         throw `Invalid token ${token.text}`;
@@ -116,14 +116,16 @@ function for_parser(scnr, expr_parser){
 
 function if_parser(scnr, expr_parser){
     return {
-      cond: expr_parser.parse(scnr)
+      cond: expr_parser.parse(scnr)[1]
     }
 }
 
 
 function print_parser(scnr, expr_parser){
+    var exprs = expr_parser.parse(scnr, 'USING')
+    var format = exprs[0] && expr_parser.parse(scnr)[1]
     return {
-      exprs : expr_parser.parse(scnr, 'USING'),
-      format : expr_parser.parse(scnr)
+      exprs : exprs[1],
+      format : format
     }
 }

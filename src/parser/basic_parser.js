@@ -6,8 +6,8 @@ import { build_satements } from './statements';
 
 export default class BasicParser {
 
-    constructor() {
-        this.scanner = new scanner();
+    constructor(statements, operators) {
+        this.scanner = new scanner(statements, operators);
         this.expr_parser = new ExpressionParser();
         this.statement_parser = build_satements();
     }

@@ -3,10 +3,10 @@ import { LetStatement } from './data';
 
 export default class StatementManager {
 
-    constructor() {
+    constructor(terminal) {
         this.builtin_statements = {
-            'PRINT': new PrintStatement(),
-            'LET': new LetStatement()
+            'PRINT': new PrintStatement(terminal),
+            'LET': new LetStatement(terminal)
         }
         this.statement_dict = this.builtin_statements;
     }
@@ -25,5 +25,9 @@ export default class StatementManager {
 
     register(name, statement) {
         this.statement_dict[name] = statement;
+    }
+
+    getKeywords(){
+        return Object.keys(this.statement_dict);
     }
 }

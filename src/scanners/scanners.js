@@ -1,5 +1,5 @@
 import orderedDict from 'ordered-dict';
-import { token_types, keywords } from "../token.js";
+import { token_types } from "../token.js";
 
 export function build_scanners () {
     var scanners = new orderedDict();
@@ -22,7 +22,7 @@ export function build_scanners () {
 }
 
 
-function EOFScanner(text, last_token){
+function EOFScanner(text){
     if (!text[0]){
         return {
             length: 0,
@@ -32,7 +32,7 @@ function EOFScanner(text, last_token){
     }
 }
 
-function EOLScanner(text, last_token) {
+function EOLScanner(text) {
     if (text.match(/^(\r\n|\r|\n)/)) {
         return {
             length: 1,
@@ -42,7 +42,7 @@ function EOLScanner(text, last_token) {
     }
 }
 
-function EOSScanner(text, last_token){
+function EOSScanner(text){
     if(text[0] == ':'){
         return {
             length: 1,
@@ -52,20 +52,10 @@ function EOSScanner(text, last_token){
     }
 }
 
-function LineNumberScanner(text, last_token) {
-    var m = text.match(/^\d+/)
-    if ((!last_token || last_token.type == token_types.EOL) && m){
-        return {
-            length: m[0].length,
-            type: token_types.LineNumber,
-            text: m[0]
-        }
-    }
-}
 
-
-function KeywordScanner(text, last_token) {
+function KeywordScanner(text, last_token, statements) {
     var word = text.match(/^[a-z$('?]+/i);
+    var keywords = statements.getKeywords();
     if (word && keywords.indexOf(word[0].toUpperCase()) > -1) {
         return {
             length: word[0].length,
@@ -94,7 +84,7 @@ function CommentScanner(text, last_token) {
 
 
 
-function DecimalScanner(text, last_token) {
+function DecimalScanner(text) {
     var m = text.match(/^((\+|-)?[\d.]+((e|d)(\+|-)?(\d))?(#|!|%)?)/i)
     if (m) {
         return {
@@ -105,7 +95,7 @@ function DecimalScanner(text, last_token) {
     }
 }
 
-function OctalScanner(text, last_token) {
+function OctalScanner(text) {
     var m = text.match(/^&o?[0-7]*/i)
     if (m) {
         return {
@@ -116,7 +106,7 @@ function OctalScanner(text, last_token) {
     }
 }
 
-function HexaScanner(text, last_token) {
+function HexaScanner(text) {
     var m = text.match(/^&h[0-9a-f]*/i)
     if (m) {
         return {
@@ -127,7 +117,7 @@ function HexaScanner(text, last_token) {
     }
 }
 
-function OperatorScanner(text, last_token) {
+function OperatorScanner(text, last_token, statements, ops) {
     var m = text.slice(0, 3).match(/(MOD|AND|OR|XOR|EQV|IMP)/i) ||
         text.slice(0, 2).match(/(>=|<=|=>|=<|<>|==)/i) ||
         text.match(/^(\^|\*|\/|\\|\+|-|>|<)/i);
@@ -140,7 +130,7 @@ function OperatorScanner(text, last_token) {
     }
 }
 
-function StringScanner(text, last_token) {
+function StringScanner(text) {
     var m = text.match(/^"([^"\r\n]*)"?/);
     if (m){
         return {
@@ -151,7 +141,7 @@ function StringScanner(text, last_token) {
     }
 }
 
-function IdentifierScanner(text, last_token){
+function IdentifierScanner(text){
     var m = text.match(/^([a-z]([a-z0-9.]+)?)(!|#|\$)?/i)
     if (m){
         return {
@@ -162,7 +152,7 @@ function IdentifierScanner(text, last_token){
     }
 }
 
-function UnknownScanner(text, last_token){
+function UnknownScanner(text){
     return {
         length: 1,
         type: token_types.Unknown,
