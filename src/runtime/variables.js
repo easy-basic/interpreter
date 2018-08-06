@@ -21,10 +21,7 @@ export default class VaribableManager {
         return this.var_dict[name]
     }
 
-    register(name, val, type) {
-        this.var_dict[name] = {
-            val: val,
-            type: type
-        };
+    register(name, val) {
+        this.var_dict[name] = val;
     }
 }

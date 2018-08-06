@@ -26,11 +26,11 @@ export default class ExpressionEvaluator {
         }
 
         // Binary Operators
-        else if(node.is_binary){
+        else if (node.is_binary) {
             var left = this._evaluateNode(node.left);
             var right = this._evaluateNode(node.right);
             var op_fn = this.runtime.operators.get_binary(node.operator);
-            
+
             if (op_fn)
                 return op_fn(left, right)
             else
@@ -39,47 +39,47 @@ export default class ExpressionEvaluator {
 
 
         // Array
-        else if (node.is_array){
+        else if (node.is_array) {
             var arr = [];
-            for(var el of node.object){
+            for (var el of node.object) {
                 arr.push(this._evaluateNode(el));
             }
             return arr;
         }
 
         // Identifier
-        else if (node.type == 9){
-            var variable= this.runtime.var_manager.get(node.text);
-            if(variable)
-                return variable.val;
+        else if (node.type == 9) {
+            var val = this.runtime.var_manager.get(node.text);
+            if (val)
+                return val;
             return undefined;
         }
 
         // array index
-        else if (node.type == 15){
+        else if (node.type == 15) {
             var variable = this.runtime.var_manager.get(node.object.text);
             var index = this._evaluateNode(node.property);
-            if(variable){
+            if (variable) {
                 return variable.val[index];
             }
-            else{
+            else {
                 throw `Index '${index}' out of range`;
             }
         }
 
         // function calls
-        else if (node.type == 16){
+        else if (node.type == 16) {
             var fn = this.runtime.fn_manager.get(node.object.text);
-            var fn_args = Array.isArray(node.property)? node.property: [node.property];
+            var fn_args = Array.isArray(node.property) ? node.property : [node.property];
             var args = [];
-            for(var arg of fn_args){
+            for (var arg of fn_args) {
                 args.push(this._evaluateNode(arg));
             }
 
-            if(fn){
+            if (fn) {
                 return fn(...args);
             }
-            else{
+            else {
                 throw `Function '${node.object.text}' is not defined`;
             }
         }

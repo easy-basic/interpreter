@@ -16,7 +16,7 @@ export function build_scanners () {
     scanners.append('octal_scanner', OctalScanner);
     scanners.append('decimal_scanner', DecimalScanner);
     scanners.append('identifier_scanner', IdentifierScanner);
-    scanners.append("unkown_scanner", UnknownScanner)
+    scanners.append("unkown_scanner", UnknownScanner);
 
     return scanners;
 }

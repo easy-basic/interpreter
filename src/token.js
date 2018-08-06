@@ -1,4 +1,4 @@
-exports.token_types = Object.freeze({
+export const token_types = Object.freeze({
     Whitespace: 0,
     Comment: 1,
     EOL: 2,
@@ -18,7 +18,7 @@ exports.token_types = Object.freeze({
     Function: 16,
 });
 
-exports.keywords = [
+export const keywords = [
     'END', 'FOR', 'NEXT', 'DATA', 'INPUT', 'DIM', 'READ', 'LET', 'GOTO', 'RUN', 'IF',
     'RESTORE', 'GOSUB', 'RETURN', 'STOP', 'PRINT', '?', 'CLEAR', 'LIST', 'NEW', 'ON',
     'WAIT', 'DEF', 'POKE', 'CONT', 'OUT', 'LPRINT', 'LLIST', 'WIDTH', 'ELSE', 'TRON',
@@ -39,7 +39,7 @@ exports.keywords = [
     'SHARED', 'ACCESS', 'RANDOM', 'OUTPUT', 'APPEND', 'BASE', 'SEG', 'ALL', 'REM', "'"
 ]
 
-exports.binary_operators = {
+export const binary_operators = {
     '^': 12,
     '*': 11, '/': 11,
     '\\': 10,
@@ -54,6 +54,6 @@ exports.binary_operators = {
     'IMP': 1
 };
 
-exports.unary_operators = [
+export const unary_operators = [
     '-', '+', 'NOT'
 ];
