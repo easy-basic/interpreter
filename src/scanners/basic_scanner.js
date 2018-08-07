@@ -23,7 +23,7 @@ export default class BasicScanner {
 
     skipBlank() {
         var m = this.source.slice(this.pos).match(/^[ \t\f]+/);
-        if (m) this.pos += m.length;
+        if (m) this.pos += m[0].length;
     }
 
     peekState(){

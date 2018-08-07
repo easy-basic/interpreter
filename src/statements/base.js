@@ -1,12 +1,15 @@
 import PrintStatement from './print';
 import { LetStatement } from './data';
+import { ForStatement, NextStatement } from './loops';
 
 export default class StatementManager {
 
     constructor(terminal) {
         this.builtin_statements = {
             'PRINT': new PrintStatement(terminal),
-            'LET': new LetStatement(terminal)
+            'LET': new LetStatement(terminal),
+            'FOR': new ForStatement(terminal),
+            'NEXT': new NextStatement(terminal),
         }
         this.statement_dict = this.builtin_statements;
     }

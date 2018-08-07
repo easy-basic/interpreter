@@ -51,8 +51,8 @@ export default class ExpressionParser {
             }
         }
         if(nodes.length == 1)
-            return [untilReached, nodes[0]]
-        return [untilReached, nodes];
+            return [untilReached, nodes[0], this.scanner]
+        return [untilReached, nodes, this.scanner];
     }
 
     _readToken() {

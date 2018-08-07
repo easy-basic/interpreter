@@ -7,7 +7,9 @@ export default class ExpressionEvaluator {
     }
 
     _evaluateNode(node) {
-        if (node.type == 4 || // Deciaml Number
+        if (!node) return undefined;
+
+        else if (node.type == 4 || // Deciaml Number
             node.type == 5 || // Octal Number
             node.type == 6 || // Hexa Number
             node.type == 8    // String
@@ -49,10 +51,7 @@ export default class ExpressionEvaluator {
 
         // Identifier
         else if (node.type == 9) {
-            var val = this.runtime.var_manager.get(node.text);
-            if (val)
-                return val;
-            return undefined;
+            return this.runtime.var_manager.get(node.text);
         }
 
         // array index

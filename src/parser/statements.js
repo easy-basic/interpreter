@@ -67,7 +67,7 @@ function no_args_parser(scnr, expr_parser){
 }
 
 function CommaArgsParser(scnr, expr_parser){
-    return expr_parser.parse(scnr);
+    return expr_parser.parse(scnr)[1];
 }
 
 // [LET] x = 12
@@ -94,16 +94,16 @@ function for_parser(scnr, expr_parser){
         throw `Invalid token ${token.text}`;
 
 
-    var start = expr_parser.parse(scnr, 'TO');
-    var token = scnr.scan();
-    if (token.text != 'TO')
+    var [_, start, scnr] = expr_parser.parse(scnr, 'TO');
+
+    if (scnr.last_token.text != 'TO')
         throw `Invalid token ${token.text}`;
 
-    var end = expr_parser.parse(scnr, 'STEP'), step;
+    var [_, end, scnr] = expr_parser.parse(scnr, 'STEP');
+    // var end = expr_parser.parse(scnr, 'STEP'), step;
 
-    var token = scnr.scan();
-    if (token.text == 'STEP'){
-        step = expr_parser.parse(scnr);
+    if (scnr.last_token.text == 'STEP'){
+        var [_, step, scnr] = expr_parser.parse(scnr);
     }
 
     return {

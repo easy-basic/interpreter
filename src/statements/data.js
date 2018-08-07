@@ -14,6 +14,5 @@ export class LetStatement {
         var var_type = this.type_dict[typeof val];
 
         runtime.var_manager.register(ident, val, var_type)
-        return val;
     }
 }
