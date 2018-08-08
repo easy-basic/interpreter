@@ -1,6 +1,6 @@
 import PrintStatement from './print';
 import { LetStatement } from './data';
-import { ForStatement, NextStatement } from './loops';
+import { ForStatement, NextStatement, WhileStatement } from './loops';
 
 export default class StatementManager {
 
@@ -10,6 +10,7 @@ export default class StatementManager {
             'LET': new LetStatement(terminal),
             'FOR': new ForStatement(terminal),
             'NEXT': new NextStatement(terminal),
+            'WHILE': new WhileStatement(terminal),
         }
         this.statement_dict = this.builtin_statements;
     }

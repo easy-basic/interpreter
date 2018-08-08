@@ -15,7 +15,7 @@ export default class BasicScanner {
     }
 
     setSource(text) {
-        this.source = text.toUpperCase();
+        this.source = text;
         this.pos = 0;
         this.last_token = null;
         this.token = null;

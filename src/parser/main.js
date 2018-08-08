@@ -14,7 +14,6 @@ export default class BasicParser {
 
     /** Return a fully parsed tree of given code */
     parse(code) {
-        this.code = code.toUpperCase();
         this.scanner.setSource(code);
         this._nextToken();
         var statements = [];
@@ -61,7 +60,7 @@ export default class BasicParser {
 
         // if 1st token is keyword add it to statement text
         if (this.token.type == token_types.Keyword) {
-            statement = this.token.text;
+            statement = this.token.text.toUpperCase();
             parser = this.statement_parser[statement];
             if(parser){
               var params = parser(this.scanner, this.expr_parser);

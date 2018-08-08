@@ -17,8 +17,8 @@ export class ForStatement {
     }
 }
 
-export class NextStatement{
-    constructor(terminal){
+export class NextStatement {
+    constructor(terminal) {
         this.terminal = terminal;
     }
 
@@ -27,7 +27,30 @@ export class NextStatement{
         var next = runtime.var_manager.get(loop.params.ident) + loop.params.step;
         runtime.var_manager.register(loop.params.ident, next);
 
-        if(next <= loop.params.end)
-            return loop.index+1;
+        if (next <= loop.params.end)
+            return loop.index + 1;
+    }
+}
+
+
+export class WhileStatement {
+    execute(statement, runtime, index) {
+        var cond = Array.isArray(statement.params)
+            ? statement.params[0] : statement.params;
+        
+        runtime.loop_man.registerLoop('while', index, {
+            'cond': condition
+        })
+    }
+}
+
+export class WendStatement {
+    execute(statement, runtime, index) {
+        var cond = Array.isArray(statement.params)
+            ? statement.params[0] : statement.params;
+        
+        runtime.loop_man.registerLoop('while', index, {
+            'cond': condition
+        })
     }
 }

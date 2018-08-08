@@ -147,7 +147,7 @@ function IdentifierScanner(text){
         return {
             length: m[0].length,
             type: token_types.Identifier,
-            text: m[0]
+            text: m[0].toUpperCase()
         };
     }
 }

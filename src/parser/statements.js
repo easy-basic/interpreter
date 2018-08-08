@@ -52,7 +52,7 @@ export function build_satements () {
 
     // Complex
     statements['FOR'] = for_parser;
-    statements['NEXT'] = CommaArgsParser;
+    statements['NEXT'] = no_args_parser;
     statements['WHILE'] = CommaArgsParser;
     statements['IF'] = if_parser;
     statements['ELIF'] = if_parser;
