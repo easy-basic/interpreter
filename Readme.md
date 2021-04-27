@@ -28,6 +28,10 @@ npm run watch
 * [x] Plugable functions support in expression parsing
 * [x] Statement Execution
 * [x] Complete Runtime
+* [ ] Implement Loops
+* [ ] User defined functions
+
+Actually whole alot of stuff is still lacking and I think current my implementation is also not that good.
 
 ## Runing
 
